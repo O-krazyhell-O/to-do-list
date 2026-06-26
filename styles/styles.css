@@ -12,13 +12,16 @@
 	--transition-duration: 0.2s;
 }
 
+html, body {
+	overflow-x: hidden;
+}
+
 body {
 	padding-block: 81px;
 	font-family: var(--font-family), sans-serif;
 	color: #333;
 	background-color: #f3f4f6;
 	font-weight: 400;
-	overflow-x: hidden;
 }
 
 input, button {
@@ -53,9 +56,9 @@ input:focus-visible, button:focus-visible {
 }
 
 .todo-list__top {
-	width: 100%;
 	display: flex;
 	column-gap: 10px;
+	row-gap: 20px;
 	justify-content: space-between;
 }
 
@@ -86,12 +89,6 @@ input:focus-visible, button:focus-visible {
 	background: #000;
 	border: 1px solid transparent;
 	transition-duration: var(--transition-duration);
-}
-
-.todo-list__button-add:hover {
-	background-color: #fff;
-	border-color: #000;
-	color: #000;
 }
 
 .todo-list__button-add:focus-visible {
@@ -250,8 +247,39 @@ input:focus-visible, button:focus-visible {
 		top: 50%;
 		translate: -50% -50%;
 	}
-	
+
 	.todo-list__placeholder {
 		justify-content: center;
+	}
+}
+
+@media (width < 600px) {
+	.todo-list__input {
+		flex-basis: 0;
+		width: 100%;
+	}
+	.todo-list__button-add {
+		flex-basis: 0;
+		width: 250px;
+	}
+	.todo-list__top {
+		flex-direction: column;
+		align-items: center;
+	}
+}
+
+@media (any-hover: none) {
+	.todo-list__button-add:active {
+		background-color: #fff;
+		border-color: #000;
+		color: #000;
+	}
+}
+
+@media (any-hover: hover) {
+	.todo-list__button-add:hover {
+		background-color: #fff;
+		border-color: #000;
+		color: #000;
 	}
 }
