@@ -1,0 +1,257 @@
+@import url("reset.css");
+@import url("fonts.css");
+
+* {
+	box-sizing: border-box;
+}
+
+:root {
+	--font-family: "Lato";
+	--border-radius: 12px;
+	--box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25);
+	--transition-duration: 0.2s;
+}
+
+body {
+	padding-block: 81px;
+	font-family: var(--font-family), sans-serif;
+	color: #333;
+	background-color: #f3f4f6;
+	font-weight: 400;
+	overflow-x: hidden;
+}
+
+input, button {
+	border: none;
+	font-family: inherit;
+}
+
+button {
+	color: inherit;
+	font-size: inherit;
+	background: none;
+	cursor: pointer;
+	padding: 0;
+}
+
+input:focus-visible, button:focus-visible {
+	outline: 1px solid black;
+}
+
+.title {
+	margin-bottom: 58px;
+	font-size: 48px;
+	font-weight: 700;
+	color: #333;
+	text-align: center;
+}
+
+.todo-list {
+	max-width: 689px;
+	margin-inline: auto;
+	padding-inline: 20px;
+}
+
+.todo-list__top {
+	width: 100%;
+	display: flex;
+	column-gap: 10px;
+	justify-content: space-between;
+}
+
+.todo-list__input {
+	display: flex;
+	align-items: center;
+	flex-basis: 519px;
+	padding: 16px 25px;
+	border-radius: var(--border-radius);
+	box-shadow: var(--box-shadow);
+	font-size: 24px;
+}
+
+.todo-list__input::placeholder {
+	font-weight: 400;
+	font-size: 24px;
+	color: #a9a9a9;
+}
+
+.todo-list__button-add {
+	flex-basis: 143px;
+	padding-block: 16px;
+	border-radius: var(--border-radius);
+	font-weight: 700;
+	font-size: 24px;
+	color: #fff;
+	box-shadow: var(--box-shadow);
+	background: #000;
+	border: 1px solid transparent;
+	transition-duration: var(--transition-duration);
+}
+
+.todo-list__button-add:hover {
+	background-color: #fff;
+	border-color: #000;
+	color: #000;
+}
+
+.todo-list__button-add:focus-visible {
+	border: 1px solid #fff;
+}
+
+.todo-list__body {
+	margin-top: 61px;
+}
+
+.todo-list__body-top {
+	display: none;
+	justify-content: space-between;
+	color: #6a7282;
+	font-size: 20px;
+	margin-bottom: 23px;
+}
+
+.todo-list__body-top.is-active {
+	display: flex;
+}
+
+.todo-list__filter-button.is-active {
+	color: #333;
+}
+
+.todo-list__tasks {
+	display: flex;
+	flex-direction: column;
+	row-gap: 30px;
+}
+
+.todo-list__task {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	padding: 22px 35px 24px 29px;
+	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25);
+	background: #fff;
+	border-radius: 12px;
+}
+
+.todo-list__task-checkbox {
+	display: none;
+}
+
+.todo-list__task-checkbox:checked ~
+.todo-list__task-checkbox-emulator {
+	background-color: #000;
+}
+
+.todo-list__task-checkbox-emulator {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 18px;
+	height: 18px;
+	border: 2px solid #000;
+	border-radius: 5px;
+	transition-duration: var(--transition-duration);
+	flex-shrink: 0;
+	cursor: pointer;
+}
+
+.todo-list__task-checkbox-emulator img {
+	user-select: none;
+}
+
+.todo-list__task-checkbox-emulator::before {
+	position: absolute;
+	content: '';
+	top: 50%;
+	left: 50%;
+	translate: -50% -50%;
+	width: 50px;
+	height: 50px;
+}
+
+.todo-list__task-checkbox:checked ~
+.todo-list__task-label {
+	color: #6a7282;
+	text-decoration: line-through;
+}
+
+.todo-list__tasks-count {
+	user-select: none;
+}
+
+.todo-list__task-label {
+	flex-grow: 1;
+	margin-inline: 30px 20px;
+	padding-block: 10px;
+	font-size: 24px;
+	color: #333;
+	user-select: none;
+	overflow: auto;
+}
+
+.todo-list__task-label:focus-visible {
+	outline: none;
+}
+
+.todo-list__task-buttons {
+	display: flex;
+	column-gap: 28px;
+	flex-shrink: 0;
+}
+
+.todo-list__task-button {
+	position: relative;
+}
+
+.todo-list__task-button::before {
+	content: '';
+	position: absolute;
+	width: 40px;
+	height: 40px;
+	top: 50%;
+	left: 50%;
+	translate: -50% -50%;
+}
+
+.todo-list__placeholder {
+	position: relative;
+	display: none;
+	align-items: center;
+	min-height: 500px;
+	justify-content: flex-end;
+}
+
+.todo-list__placeholder.is-active {
+	display: flex;
+}
+
+.todo-list__placeholder-image {
+	position: absolute;
+	top: 0;
+	left: -201px;
+	z-index: -1;
+}
+
+.todo-list__placeholder-text {
+	max-width: 402px;
+	font-style: italic;
+	font-weight: 400;
+	font-size: 24px;
+	background-color: #F3F4F6;
+	border-radius: 10px;
+	padding: 5px;
+}
+
+@media (width < 700px) {
+	.todo-list__placeholder-image {
+		left: 50%;
+		top: 50%;
+		translate: -50% -50%;
+	}
+	
+	.todo-list__placeholder {
+		justify-content: center;
+	}
+}

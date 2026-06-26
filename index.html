@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="images/fav.png" type="image/x-icon">
+    <link rel="stylesheet" href="styles/styles.css">
+    <title>To-Do List</title>
+</head>
+<body>
+    <h1 class="title">My Tasks</h1>
+    <div class="todo-list">
+        <div class="todo-list__top">
+            <input class="todo-list__input" type="text" placeholder="Type your task here..." data-input>
+            <button class="todo-list__button-add" data-add-button>+ Add</button>
+        </div>
+        <div class="todo-list__body">
+            <div class="todo-list__body-top" data-top>
+                <div class="todo-list__filter" data-filter>
+                    <button class="todo-list__filter-button is-active" data-filter-button>All</button> |
+                    <button class="todo-list__filter-button" data-filter-button>Active</button> |
+                    <button class="todo-list__filter-button" data-filter-button>Completed</button>
+                </div>
+                <div class="todo-list__tasks-count" data-tasks-count></div>
+            </div>
+            <div class="todo-list__placeholder is-active" data-placeholder>
+                <img class="todo-list__placeholder-image" src="images/selfie.png" alt="" width="666" height="500">
+                <p class="todo-list__placeholder-text">Empty as my motivation on Monday 😅. Let’s start adding stuff!</p>
+            </div>
+            <div class="todo-list__tasks" data-tasks>
+                
+            </div>
+            <!-- <div class="todo-list__tasks">
+                <div class="todo-list__task">
+                    <input class="todo-list__task-checkbox" type="checkbox" id="task1">
+                    <span class="todo-list__task-checkbox-emulator">
+                        
+                    </span>
+                    <label class="todo-list__task-label" for="task1">Learn React</label>
+                    <div class="todo-list__task-buttons">
+                        <button class="todo-list__task-button">
+                            <img src="images/pencil.svg" alt="" width="24" height="24">
+                        </button>
+                        <button class="todo-list__task-button">
+                            <img src="images/trash.svg" alt="" width="24" height="24">
+                        </button>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+    </div>
+    <script src="js/script.js"></script>
+</body>
+</html>
