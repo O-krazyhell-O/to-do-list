@@ -25,11 +25,12 @@ function save() {
 }
 
 function load() {
-    const tasksJson = localStorage.getItem(TASKS_KEY)
-    const lastIdJson = localStorage.getItem(LAST_ID_KEY)
-    tasks = JSON.parse(tasksJson)
-    lastId = JSON.parse(lastIdJson)
-    if (!tasks) {
+    try {
+        const tasksJson = localStorage.getItem(TASKS_KEY)
+        const lastIdJson = localStorage.getItem(LAST_ID_KEY)
+        tasks = JSON.parse(tasksJson)
+        lastId = JSON.parse(lastIdJson)
+    } catch {
         tasks = []
     }
 }
@@ -42,13 +43,10 @@ function onCheckBoxClick(event) {
     const taskElement = checkboxEmulatorElement.parentElement
     const inputElement = taskElement.querySelector('[data-task-input]')
     const taskId = Number(inputElement.getAttribute('id'))
-    tasks.forEach(task => {
-        if (task.id === taskId) {
-            task.ready = !task.ready
-        }
-    })
-    render()
-    save()
+
+    const task = tasks.find(task => task.id === taskId)
+    task.ready = !task.ready
+    update()
 }
 
 function onRemoveButtonClick(event) {
@@ -57,8 +55,7 @@ function onRemoveButtonClick(event) {
         return
     }
     tasks = tasks.filter(task => task.id !== Number(removeButtonElement.dataset.buttonRemove))
-    save()
-    render()
+    update()
 }
 
 function onEditButtonClick(event) {
@@ -68,8 +65,14 @@ function onEditButtonClick(event) {
     }
     const taskElement = editButtonElement.parentElement.parentElement
     const labelElement = taskElement.querySelector('[data-label]')
-    if (labelElement.textContent === '-') {
+    const task = tasks.find(task => task.id === Number(labelElement.dataset.label))
+    if 
+    (
+        labelElement.textContent === 'Nothing...' && 
+        task.isNothingProgrammed
+    ) {
         labelElement.textContent = ''
+        task.isNothingProgrammed = false
     }
     labelElement.setAttribute('contenteditable', 'true')
     moveCursorToEnd(labelElement)
@@ -91,14 +94,12 @@ function onLabelFocusOut(event) {
         return
     }
     labelElement.setAttribute('contenteditable', 'false')
+    const task = tasks.find(task => task.id === Number(labelElement.dataset.label))
     if (labelElement.textContent === '') {
-        labelElement.textContent = '-'
+        labelElement.textContent = 'Nothing...'
+        task.isNothingProgrammed = true
     }
-    tasks.forEach(task => {
-        if (task.id === Number(labelElement.dataset.label)) {
-            task.text = labelElement.textContent
-        }
-    })
+    task.text = labelElement.textContent
     save()
 }
 
@@ -111,26 +112,8 @@ function onLabelKeyDown(event) {
     if (event.code !== 'Enter' && event.code !== 'Escape') {
         return
     }
-    console.log('жопа')
     labelElement.setAttribute('contenteditable', 'false')
     save()
-}
-
-function onLabelDoubleClick(event) {
-    const labelElement = event.target.closest('[data-label]')
-    if (!labelElement) {
-        return
-    }
-    if (labelElement.textContent === '-') {
-        labelElement.textContent = ''
-    }
-    labelElement.setAttribute('contenteditable', 'true')
-    moveCursorToEnd(labelElement)
-    labelElement.focus()
-}
-
-function updateTaskText(task, text) {
-    task.text = text
 }
 
 function onFilterClick(event) {
@@ -148,8 +131,7 @@ function onFilterClick(event) {
     })
     clickedFilterButton.classList.add('is-active')
     currentFilter = clickedFilterButton.textContent.toLowerCase()
-    render()
-    save()
+    update()
 }
 
 function render() {
@@ -188,24 +170,33 @@ function render() {
             </div>
         `)
     })
-    let completedTasksCount = 0
+    let activeTasksCount = 0
     tasks.forEach(task => {
         if (!task.ready) {
-            completedTasksCount++
+            activeTasksCount++
         }
     })
-    tasksCountElement.textContent = `${completedTasksCount} tasks left`
+    tasksCountElement.textContent = `${activeTasksCount} tasks left`
+}
+
+function update() {
+    render()
+    save()
 }
 
 function addTask() {
     if (inputElement.value === "") {
         return
     }
-    tasks.unshift({
-        id: lastId++,
-        text: inputElement.value,
-        ready: false
-    })
+    tasks = [
+        {
+            id: lastId++,
+            text: inputElement.value,
+            ready: false,
+            isNothingProgrammed: false,
+        }, 
+        ...tasks
+    ]
     inputElement.value = ""
     inputElement.focus()
     save()
@@ -227,10 +218,6 @@ tasksElement.addEventListener('click', (event) => {
     onCheckBoxClick(event)
     onRemoveButtonClick(event)
     onEditButtonClick(event)
-})
-
-tasksElement.addEventListener('dblclick', (event) => {
-    onLabelDoubleClick(event)
 })
 
 tasksElement.addEventListener('keydown', (event) => {
