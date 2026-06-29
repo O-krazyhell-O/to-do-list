@@ -25,14 +25,10 @@ function save() {
 }
 
 function load() {
-    try {
-        const tasksJson = localStorage.getItem(TASKS_KEY)
-        const lastIdJson = localStorage.getItem(LAST_ID_KEY)
-        tasks = JSON.parse(tasksJson)
-        lastId = JSON.parse(lastIdJson)
-    } catch {
-        tasks = []
-    }
+    const tasksJson = localStorage.getItem(TASKS_KEY)
+    const lastIdJson = localStorage.getItem(LAST_ID_KEY)
+    tasks = JSON.parse(tasksJson) ?? []
+    lastId = JSON.parse(lastIdJson)
 }
 
 function onCheckBoxClick(event) {
